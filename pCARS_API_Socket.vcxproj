@@ -92,9 +92,6 @@
     <ResourceCompile Include="pCARS_API_Socket.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="LICENSE.txt">
-      <DeploymentContent>true</DeploymentContent>
-    </Text>
     <Text Include="README.txt">
       <DeploymentContent>true</DeploymentContent>
     </Text>

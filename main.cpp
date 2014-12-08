@@ -1,9 +1,22 @@
-/**
-*
-* Copyright (c) 2014 Manuel Dalda Calle
-* Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
-*
-*/
+/*
+ * pCARS API Socket
+ * Copyright (C) 2014 - Manuel Dalda Calle
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ * 02110-1301 USA.
+ *
+ */
+
 
 #include <windows.h>
 #include <process.h>
@@ -159,7 +172,7 @@ unsigned __stdcall ListenOnPort(void *)
 		char e[100];
 		sprintf_s(e, sizeof(e), "Port %i in use by other application", port);
 		MessageBox(NULL, e, "Error", 16);
-
+		exit(0);
 		return false; //Error opening port
 	}
 
@@ -167,6 +180,7 @@ unsigned __stdcall ListenOnPort(void *)
 	{
 		WSACleanup ();
 		MessageBox(NULL, "How do you can run pCARS in this Windows Version?", "Error", 16);
+		exit(0);
 		return false; // Don't have Winsock2?
 	}
 
@@ -180,12 +194,14 @@ unsigned __stdcall ListenOnPort(void *)
 	if (s == INVALID_SOCKET)
 	{
 		MessageBox(NULL, "Unknown error creating the port listener", "Error", 16);
+		exit(0);
 		return false; // Unknown error opening socket
 	}
 
 	if (bind(s, (LPSOCKADDR)&addr, sizeof(addr)) == SOCKET_ERROR)
 	{
 		MessageBox(NULL, "Error binding the port listener", "Error", 16);
+		exit(0);
 		return false; // Binding error
 	}
 
@@ -229,9 +245,9 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char*, int n
 
 	g_hwnd = CreateWindowEx (0, className, TEXT( "pCARS API Socket" ),WS_OVERLAPPEDWINDOW,CW_USEDEFAULT, CW_USEDEFAULT, 400, 400, NULL, NULL, hInstance, NULL);
 
-	
 
-	
+
+
 
 	// Create System Tray Icon
 	LoadIcon (GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1));
